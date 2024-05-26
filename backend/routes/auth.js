@@ -1,18 +1,20 @@
+const express = require('express')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
 const { jwtSecret, passwordSalt } = require('../startup/secret')
 const validate = require('../middleware/validate')
 const { registerSchema, loginSchema }  = require('../schemas/auth')
+const auth = require('../middleware/auth')
 
 const router = express.Router()
 
 router.post('/signup', validate(registerSchema), async (req, res) => {
-    const { username, password } = req.body
+    const { username, password, theme } = req.body
 
     try {
         const hashedPassword = await bcrypt.hash(password, passwordSalt)
-        const user = await User.create({ username, password: hashedPassword })
+        const user = await User.create({ username, password: hashedPassword, theme })
         const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' })
         res.status(201).send({ error: false, token, user: { theme: user.theme } })
     } catch (err) {
@@ -25,7 +27,10 @@ router.post('/login', validate(loginSchema), async (req, res) => {
 
     try {
         const user = await User.findOne({ where: { username } })
-        if (!user || !(await bcrypt.compare(password, user.password))) {
+        if (!user){
+            return res.status(404).send({ error: true, message: 'User does not exist.' })
+        }
+        if (!(await bcrypt.compare(password, user.password))) {
             return res.status(400).send({ error: true, message: 'Invalid username or password.' })
         }
 
@@ -34,6 +39,10 @@ router.post('/login', validate(loginSchema), async (req, res) => {
     } catch (err) {
         res.status(500).send({ error: true, message: 'Login failed.', detail: `${err}` });
     }
+})
+
+router.post('/logout', auth, (req, res) => {
+    res.status(200).send({ error: false, message: 'Logout Successful' })
 })
 
 module.exports = router
