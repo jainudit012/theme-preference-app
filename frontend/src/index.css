@@ -44,15 +44,24 @@ select {
 }
 
 .section.blue {
-  background-color: blue;
+  background-color: #0390fc;
   color: white;
 }
 
 .section.red {
-  background-color: red;
+  background-color: #FF5733;
   color: white;
 }
 
 .section p span {
   font-weight: bold;
+}
+
+.navbar-blue {
+  background-color: #33A8FF;
+}
+
+.navbar-red {
+  background-color: #f78065;
+  
 }
