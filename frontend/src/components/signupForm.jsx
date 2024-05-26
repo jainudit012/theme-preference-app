@@ -26,11 +26,11 @@ const SignupForm = props => {
         try {
             const response = await axiosInstance.post('/signup', { ...values, theme: props.theme });
             // console.log(response.data)
-            toast.success('Signup successful')
+            toast.success('Signup successful', { toastId: 'signup-success' })
             props.onSuccess(response.data)
         } catch (error) {
             // console.log(error.response?.data)
-            toast.error(error.response?.data?.message??'Signup Failed')
+            toast.error(error.response?.data?.message??'Signup Failed', { toastId: 'signup-error' })
         } finally {
             setSubmitting(false);
         }

@@ -23,11 +23,11 @@ const LoginForm = props => {
         try {
             const response = await axiosInstance.post('/login', { ...values, theme: props.theme })
             // console.log(response.data)
-            toast.success('Login successful')
+            toast.success('Login successful', { toastId: 'login-success' })
             props.onSuccess(response.data)
         } catch (error) {
             // console.log(error.response.data)
-            toast.error(error.response?.data?.message??'Login Failed')
+            toast.error(error.response?.data?.message??'Login Failed', { toastId: 'login-error' })
         } finally {
             setSubmitting(false);
         }

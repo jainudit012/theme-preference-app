@@ -20,7 +20,7 @@ const AppNavBar = () => {
                 setThemeOptions(response.data.choices.THEME_CHOICES)
             } catch (error) {
                 console.error('Error fetching themes:', error)
-                toast.error('Error in fecthing themes. Using default options')
+                toast.error('Error in fecthing themes. Using default options', { toastId: 'theme-fetch-error' })
             }
         }
         fetchThemes()
@@ -34,11 +34,11 @@ const AppNavBar = () => {
         try {
             await axiosInstance.post('/logout')
             logout()
-            toast.success('Logged Out')
+            toast.success('Logged Out', { toastId: 'logout-success' })
             navigate('/login')
         } catch (error) {
             console.error('Error logging out:', error)
-            toast.error(error.response?.data?.message??'Logout Failed')
+            toast.error(error.response?.data?.message??'Logout Failed', { toastId: 'logout-error' })
         }
     }
 
