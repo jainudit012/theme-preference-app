@@ -33,12 +33,13 @@ const AppNavBar = () => {
     const handleLogout = async () => {
         try {
             await axiosInstance.post('/logout')
+        } catch (error) {
+            console.error('Error logging out:', error)
+            // toast.error(error.response?.data?.message??'Logout Failed', { toastId: 'logout-error' })
+        } finally {
             logout()
             toast.success('Logged Out', { toastId: 'logout-success' })
             navigate('/login')
-        } catch (error) {
-            console.error('Error logging out:', error)
-            toast.error(error.response?.data?.message??'Logout Failed', { toastId: 'logout-error' })
         }
     }
 
