@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import AppNavBar from '../components/navbar'
+import { ThemeContext } from '../context/themeContext'
 
 const Home = () => {
+    const { theme } = useContext(ThemeContext)
+
     return (
-        <div>
+        <div className="home-container">
             <AppNavBar />
-            <h1>Welcome to Our Website</h1>
+            <section className={`section ${theme}`}>
+                <h1>Welcome to Theme Selector</h1>
+                <p>Current selected theme of the application is : <span>{theme}</span></p>
+            </section>
         </div>
     )
 }

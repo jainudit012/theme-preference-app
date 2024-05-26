@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import { jwtDecode } from 'jwt-decode'
 import LoginForm from '../components/loginForm'
 import { useNavigate } from 'react-router-dom'
 import classes from '../styles/authPages.module.css'
@@ -22,7 +23,8 @@ const LoginPage = () => {
     const handleLoginSuccess = data => {
         // console.log(data)
         localStorage.setItem('token', data.token)
-        setUser({ user: data.user, token: data.token })
+        const decodedToken = jwtDecode(data.token)
+        setUser({ token: data.token, ...decodedToken })
         saveTheme(data.user.theme)
         navigate('/')
     }

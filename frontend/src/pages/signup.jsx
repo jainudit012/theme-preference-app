@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import { useNavigate } from 'react-router-dom'
+import { jwtDecode } from 'jwt-decode'
 import SignupForm from '../components/signupForm'
 import classes from '../styles/authPages.module.css'
 import { AuthContext } from '../context/authContext'
@@ -22,7 +23,8 @@ const SignupPage = () => {
     const handleSignupSuccess = data => {
         // console.log(data)
         localStorage.setItem('token', data.token)
-        setUser({ user: data.user, token: data.token })
+        const decodedToken = jwtDecode(data.token)
+        setUser({ token: data.token, ...decodedToken })
         saveTheme(data.user.theme)
         navigate('/')
     }
