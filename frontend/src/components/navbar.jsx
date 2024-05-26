@@ -4,7 +4,7 @@ import { ThemeContext } from '../context/themeContext'
 import { AuthContext } from '../context/authContext'
 import axiosInstance from '../axios/axiosInstance'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const AppNavBar = () => {
     const { theme, saveTheme } = useContext(ThemeContext)
@@ -42,25 +42,28 @@ const AppNavBar = () => {
         }
     }
 
+    const goToLogin = () => {
+        navigate('/login')
+    }
+
     return (
         <Navbar bg={theme} variant={theme} expand="lg">
-            <Navbar.Brand href="#home">Theme App</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">Theme App</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <NavDropdown title="Theme Preferences" id="basic-nav-dropdown" onSelect={handleSelect}>
+                    <NavDropdown title="Theme" id="basic-nav-dropdown" onSelect={handleSelect}>
                         {
                             themeOptions.map((theme, index) => (
                                 <NavDropdown.Item eventKey={theme} key={index}>{theme}</NavDropdown.Item>
                             ))
                         }
                     </NavDropdown>
+                    {user ?
+                        <Nav.Link onClick={handleLogout}>Logout</Nav.Link> :
+                        <Nav.Link onClick={goToLogin}>Login</Nav.Link>
+                    }
                 </Nav>
-                { user &&
-                    <Nav>
-                        <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
-                    </Nav>
-                }
             </Navbar.Collapse>
         </Navbar>
     )
