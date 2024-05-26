@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import classes from '../styles/authPages.module.css'
 import { AuthContext } from '../context/authContext'
 import { ThemeContext } from '../context/themeContext'
+import AppNavBar from '../components/navbar'
 
 const LoginPage = () => {
     const { user, setUser } = useContext(AuthContext)
@@ -27,6 +28,8 @@ const LoginPage = () => {
     }
 
     return (
+        <>
+        <AppNavBar />
         <div className={classes.container}>
             <Container>
                 <Row>
@@ -37,6 +40,7 @@ const LoginPage = () => {
                 </Row>
             </Container>
         </div>
+        </>
     )
 }
 

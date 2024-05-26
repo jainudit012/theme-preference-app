@@ -6,6 +6,7 @@ import SignupForm from '../components/signupForm'
 import classes from '../styles/authPages.module.css'
 import { AuthContext } from '../context/authContext'
 import { ThemeContext } from '../context/themeContext'
+import AppNavBar from '../components/navbar'
 
 const SignupPage = () => {
     const { user, setUser } = useContext(AuthContext)
@@ -27,6 +28,8 @@ const SignupPage = () => {
     }
 
     return (
+        <>
+        <AppNavBar />
         <div className={classes.container}>
             <Container>
                 <Row>
@@ -37,6 +40,7 @@ const SignupPage = () => {
                 </Row>
             </Container>
         </div>
+        </>
     )
 }
 
