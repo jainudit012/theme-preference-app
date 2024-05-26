@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const User = require('../models/user')
-const { jwtSecret } = require('../startup/secret')
+const { jwtSecret, passwordSalt } = require('../startup/secret')
 const validate = require('../middleware/validate')
 const { registerSchema, loginSchema }  = require('../schemas/auth')
 
@@ -11,7 +11,7 @@ router.post('/signup', validate(registerSchema), async (req, res) => {
     const { username, password } = req.body
 
     try {
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = await bcrypt.hash(password, passwordSalt)
         const user = await User.create({ username, password: hashedPassword })
         const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' })
         res.status(201).send({ error: false, token, user: { theme: user.theme } })
