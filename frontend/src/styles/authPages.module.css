@@ -1,0 +1,17 @@
+.container {
+    width: 80%;
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.page_heading {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        max-width: unset;
+    }
+}
