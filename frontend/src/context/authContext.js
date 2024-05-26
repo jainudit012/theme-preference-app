@@ -9,8 +9,20 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            const decodedToken = jwtDecode(token)
-            setUser({ token, ...decodedToken })
+            try{
+                const decodedToken = jwtDecode(token)
+                const expirationTime = decodedToken.exp * 1000
+                const currentTime = new Date().getTime()
+                if ( currentTime < expirationTime ){
+                    setUser({ token, ...decodedToken })
+                } else {
+                    toast.info('Session Expired! Logging Out.', { toastId: 'session-expired' })
+                    logout()
+                }
+            }catch(err){
+                toast.error('Invalid Session! Logging Out.', { toastId: 'session-invalid' })
+                logout()
+            }
         }
     }, [])
 
