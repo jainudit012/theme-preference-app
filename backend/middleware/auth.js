@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken')
 const { jwtSecret } = require('../startup/secret')
 
 const authMiddleware = (req, res, next) => {
+    if(!req.header('Authorization')) {
+        return res.status(401).send({ error: true, message: 'Access denied. No token provided.' })
+    }
     const token = req.header('Authorization').replace('Bearer ', '')
     if (!token) {
         return res.status(401).send({ error: true, message: 'Access denied. No token provided.' })
