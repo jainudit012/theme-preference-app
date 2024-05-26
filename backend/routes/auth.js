@@ -26,7 +26,7 @@ router.post('/signup', validate(registerSchema), async (req, res) => {
 })
 
 router.post('/login', validate(loginSchema), async (req, res) => {
-    const { username, password } = req.body
+    const { username, password, theme } = req.body
 
     try {
         const user = await User.findOne({ where: { username } })
@@ -37,11 +37,14 @@ router.post('/login', validate(loginSchema), async (req, res) => {
             return res.status(400).send({ error: true, message: 'Invalid username or password.' })
         }
 
+        user.theme = theme
+        await user.save()
+
         const token = jwt.sign(
-            { id: user.id, username, theme: user.theme },
+            { id: user.id, username, theme },
             jwtSecret, { expiresIn: '1d' }
         )
-        res.send({ error: false, token, user: { theme: user.theme } })
+        res.send({ error: false, token, user: { theme } })
     } catch (err) {
         res.status(500).send({ error: true, message: 'Login failed.', detail: `${err}` });
     }

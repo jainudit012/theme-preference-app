@@ -21,7 +21,7 @@ const LoginForm = props => {
     const handleSubmit = async (values, { setSubmitting }) => {
         // console.log(values)
         try {
-            const response = await axiosInstance.post('/login', values)
+            const response = await axiosInstance.post('/login', { ...values, theme: props.theme })
             // console.log(response.data)
             toast.success('Login successful')
             props.onSuccess(response.data)

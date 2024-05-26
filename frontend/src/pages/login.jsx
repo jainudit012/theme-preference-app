@@ -11,7 +11,7 @@ import AppNavBar from '../components/navbar'
 
 const LoginPage = () => {
     const { user, setUser } = useContext(AuthContext)
-    const { saveTheme } = useContext(ThemeContext)
+    const { theme, saveTheme } = useContext(ThemeContext)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -38,7 +38,7 @@ const LoginPage = () => {
                     <h2 className={classes.page_heading}>Login</h2>
                 </Row>
                 <Row>
-                    <LoginForm onSuccess={handleLoginSuccess}/>
+                    <LoginForm onSuccess={handleLoginSuccess} theme={theme}/>
                 </Row>
             </Container>
         </div>
