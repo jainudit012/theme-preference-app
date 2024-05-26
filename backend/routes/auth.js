@@ -15,7 +15,10 @@ router.post('/signup', validate(registerSchema), async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(password, passwordSalt)
         const user = await User.create({ username, password: hashedPassword, theme })
-        const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' })
+        const token = jwt.sign(
+            { id: user.id, username, theme }, 
+            jwtSecret, { expiresIn: '1d' }
+        )
         res.status(201).send({ error: false, token, user: { theme: user.theme } })
     } catch (err) {
         res.status(400).send({ error: true, message: 'User registration failed.', detail: `${err}` })
@@ -34,7 +37,10 @@ router.post('/login', validate(loginSchema), async (req, res) => {
             return res.status(400).send({ error: true, message: 'Invalid username or password.' })
         }
 
-        const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1d' })
+        const token = jwt.sign(
+            { id: user.id, username, theme: user.theme },
+            jwtSecret, { expiresIn: '1d' }
+        )
         res.send({ error: false, token, user: { theme: user.theme } })
     } catch (err) {
         res.status(500).send({ error: true, message: 'Login failed.', detail: `${err}` });
