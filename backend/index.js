@@ -12,6 +12,10 @@ sequelize.sync().then(() => {
 
 require('./startup/routes')(app)
 
+app.get('/ping', (req, res) => {
+    res.send({error: false, message: 'pong'})
+})
+
 
 app.listen(port, ()=>{
     console.log(`Server Listening on port ${port}...`)
