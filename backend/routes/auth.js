@@ -17,7 +17,7 @@ router.post('/signup', validate(registerSchema), async (req, res) => {
         const user = await User.create({ username, password: hashedPassword, theme })
         const token = jwt.sign(
             { id: user.id, username, theme }, 
-            jwtSecret, { expiresIn: '1d' }
+            jwtSecret, { expiresIn: '7d' }
         )
         res.status(201).send({ error: false, token, user: { theme: user.theme } })
     } catch (err) {
@@ -42,7 +42,7 @@ router.post('/login', validate(loginSchema), async (req, res) => {
 
         const token = jwt.sign(
             { id: user.id, username, theme },
-            jwtSecret, { expiresIn: '1d' }
+            jwtSecret, { expiresIn: '7d' }
         )
         res.send({ error: false, token, user: { theme } })
     } catch (err) {
