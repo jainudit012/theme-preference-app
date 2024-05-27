@@ -13,7 +13,7 @@ router.post('/signup', validate(registerSchema), async (req, res) => {
     const { username, password, theme } = req.body
 
     try {
-        const hashedPassword = await bcrypt.hash(password, `${passwordSalt}`)
+        const hashedPassword = await bcrypt.hash(password, 10)
         const user = await User.create({ username, password: hashedPassword, theme })
         const token = jwt.sign(
             { id: user.id, username, theme }, 
