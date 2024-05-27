@@ -1,10 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axiosInstance from '../axios/axiosInstance'
 
-export const ThemeContext = createContext(process.env.DEFAULT_THEME||'light')
+export const ThemeContext = createContext(process.env.REACT_APP_DEFAULT_THEME||'light')
 
 export const ThemeProvider = ({ children }) => {
-    const [theme, setTheme] = useState(process.env.DEFAULT_THEME||'light')
+    const [theme, setTheme] = useState(process.env.REACT_APP_DEFAULT_THEME||'light')
 
     useEffect(() => {
         const existingThemeValue = localStorage.getItem('theme')
